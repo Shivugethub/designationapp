@@ -3,6 +3,7 @@ import { Designation } from './designation';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+
   selector: 'app-designationdisplay',
   templateUrl: './designationdisplay.component.html',
   styleUrls: ['./designationdisplay.component.css']
@@ -12,6 +13,7 @@ export class DesignationdisplayComponent implements OnInit {
   closeResult: string;
   constructor(private modalService: NgbModal) { }
 name:string = '';
+msg = 'onDesigDelete';
 description:string = '';
 arrDesig: Designation[ ] = [
   new Designation('Software','Role'),
@@ -40,5 +42,11 @@ arrDesig: Designation[ ] = [
       return  `with: ${reason}`;
     }
   }
+
+  onDesigDelete(desig) {
+    confirm(this.msg);
+    this.arrDesig.splice(this.arrDesig.indexOf(desig), 1);
+  }
+
 
 }
