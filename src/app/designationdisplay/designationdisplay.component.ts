@@ -12,19 +12,20 @@ export class DesignationdisplayComponent implements OnInit {
 
   closeResult: string;
   constructor(private modalService: NgbModal) { }
-name:string = '';
-msg = 'onDesigDelete';
-description:string = '';
-arrDesig: Designation[ ] = [
+  name:string = '';
+  msg = 'onDesigDelete';
+  description:string = '';
+  arrDesig: Designation[ ] = [
   new Designation('Software','Role'),
   new Designation('Data Base AdminiStator','Handle the backend DB ports configauration'),
   new Designation('Software', 'Test the Application/project in all possible ways using agile methodolgy')
-];
+ ];
   ngOnInit() {
   }
 
 
 
+  // modal
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -33,6 +34,7 @@ arrDesig: Designation[ ] = [
     });
   }
 
+  // modal
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -43,6 +45,7 @@ arrDesig: Designation[ ] = [
     }
   }
 
+  // delete
   onDesigDelete(desig) {
     confirm(this.msg);
     this.arrDesig.splice(this.arrDesig.indexOf(desig), 1);
