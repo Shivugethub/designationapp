@@ -1,66 +1,85 @@
-<div class='container'>
-  <h1 class='bg bg-light'>DESIGNATIONS</h1>
-  <button class="btn btn-lg btn-warning text-white float-right" (click)="open(content)">Add new Designation</button>
-</div>
-<table class='table'>
-  <thead>
-    <tr>
-      <td>Name</td>
-      <td>Description</td>
-      <td>Action</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of arrDesig">
-      <td>{{item.name}}</td>
-      <td>{{item.description}}</td>
-      <td>
-        <button class="btn btn-secondary" (click)="onDesigEdit(item)"  >Edit</button> |
-        <button class="btn btn-danger" (click)="onDesigDelete(item)" ><span class="glyphicon glyphicon-trash">Delete</span></button></td>
-    </tr>
-  </tbody>
-</table>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add/Edit Designation</h4>
-    <button type="button" class="close bg bg-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">Close</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      <!-- <div class='col-6'> -->
-    <form>
-      <div class="form-group">
-        <label for="designation">Designation</label>
-        <div class="input-group">
-          <input id="designation" class="form-control" placeholder="Name" name="designame">
-          <div class="input-group-append">
-            <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group col-6">
-        <label for="description">Description</label>
-        <div class="input-group">
-          <input id="description" class="form-control" placeholder="Description" name="description">
-          <div class="input-group-append">
-            <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
-          </div>
-        </div>
-      </div>
-
-    </form>
-  </div>
-  <!-- </div> -->
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-  </div>
-</ng-template>
+<!-- <div class='container'> -->
+    <!-- <div class='row'> -->
+       <h1 class='float-left text' id='text-color-title'>{{title | uppercase}}</h1>
+       <div class='container'>
+          <!-- Modal btn -->
+          <button class="btn btn-sm btn-warning text-white float-right" (click)="open(content)">Add New Designation</button>
+          <!-- <div></div> -->
+       </div><br><br><br><br>
+       <div class='container'>
+          <form class="form-inline mr-auto">
+             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+             <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button>
+          </form>
+       </div>
+       <table class='table table-striped table-sm table-responsive-sm'>
+          <thead>
+             <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th><i id='text-align-right'>Actions</i></th>
+             </tr>
+          </thead>
+          <tbody>
+             <tr class='' *ngFor="let item of arrDesig">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>
+                   <button class="btn btn-sm btn-secondary" (click)="openEdit(content,item)"><i class="fas fa-edit"></i></button> |
+                   <button class="btn btn-sm btn-danger" (click)="onDesigDelete(item)"><i class="fas fa-trash"></i></button>
+                </td>
+             </tr>
+          </tbody>
+       </table>
+    <!-- </div> -->
+ <!-- </div> -->
 
 
 
-<hr>
-
-<pre>{{closeResult}}</pre>
+  <!-- Modal Begins -->
+ <ng-template #content let-modal>
+    <div class="modal-header">
+       <h4 class="modal-title" id="modal-basic-title" >Add/Edit Designation</h4>
+       <button type="button" class="close bg bg-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
+       <span aria-hidden="true">Close</span>
+       </button>
+    </div>
+    <div class="modal-body">
+       <!-- <div class='col-4'> -->
+       <form (ngSubmit)="onEditDesign(f)" #f="ngForm">
+       <table>
+          <tr>
+             <td>
+                <div class="form-group">
+                   <label for="designation">Designation</label>
+                   <div class="input-group">
+                      <input id="designation" class="form-control" [(ngModel)]='name' placeholder="Name" name="designame">
+                      <div class="input-group-append">
+                         <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
+                      </div>
+                   </div>
+                </div>
+             </td>
+             <td>
+                <div class="form-group">
+                   <label for="description">Description</label>
+                   <div class="input-group">
+                      <input id="description" class="form-control" [(ngModel)]="description" placeholder="Description" name="description">
+                      <div class="input-group-append">
+                         <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
+                      </div>
+                   </div>
+                </div>
+             </td>
+          </tr>
+       </table>
+       <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-dark" >Submit</button>
+          <button type="reset" class="btn btn-outline-dark" >Cancel</button>
+       </div>
+       </form>
+    </div>
+    <!-- </div> -->
+ </ng-template>
+ <!-- <hr>
+    <pre>{{closeResult}}</pre> -->
