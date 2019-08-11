@@ -55,7 +55,6 @@ export class DesignationdisplayComponent implements OnInit {
     }
   }
 
-
  // Modal Editpopup
   openEdit(content, item) {
     this.id = item.Id;
@@ -74,15 +73,14 @@ export class DesignationdisplayComponent implements OnInit {
   }
 
 
-  // Update
-
-  updateDesignation(f) {
-    this.dataservice.editDesignation(this.id, f.value).subscribe(
-      (data: any) => {
-        alert('updated');
-      }
-    );
-  }
+  // // Update not
+  // updateDesignation(f) {
+  //   this.dataservice.editDesignation(this.id, f.value).subscribe(
+  //     (data: any) => {
+  //       alert('updated');
+  //     }
+  //   );
+  // }
 
 
  // Modal Addpopup
