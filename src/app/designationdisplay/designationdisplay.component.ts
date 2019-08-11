@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Designation } from './designation';
+import { Designation } from 'src/app/designation';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DesignationdataService } from '../designationdata.service';
+import { jquery } from 'jquery-confirm';
+import { JsonpClientBackend } from '@angular/common/http';
 
 @Component({
   selector: 'app-designationdisplay',
@@ -8,30 +11,56 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./designationdisplay.component.css']
 })
 export class DesignationdisplayComponent implements OnInit {
-  updatedItem;
 
   title = 'Designation';
   closeResult: string;
-  constructor(private modalService: NgbModal) {}
-  name: string = '';
+  id:number;
+  designation: string = '';
   msg = 'Are You Sure!';
   description: string = '';
-  arrDesig: Designation[] = [
-    new Designation('Software', 'Role'),
-    new Designation(
-      'Data Base AdminiStator',
-      'Handle the backend DB ports configauration'
-    ),
-    new Designation(
-      'Software',
-      'Test the Application/project in all possible ways using agile methodolgy'
-    )
-  ];
 
-  ngOnInit() {}
+  //  using api
+  constructor(private modalService: NgbModal, private dataservice: DesignationdataService) {}
+  errorMessage = '' ;
+  editDesignation: Designation[];
+  arrdesignation: Designation[] = [] ;
+  // End api
 
-  // modal
-  open(content) {
+  ngOnInit() {
+    console.log('oninit');
+    this.getDesignations();
+  }
+
+  getDesignations() {
+    this.dataservice.getDesignations().subscribe((data: any[]) => {
+      console.log(data);
+      this.arrdesignation = data;
+    });
+  }
+
+  public onDesigDelete(desigId: Designation) {
+    console.log(desigId.Id);
+    if (confirm(this.msg) === true) {
+      this.dataservice.deleteDesignation(desigId.Id).subscribe((ret: any) => {
+        console.log('Successfuly deleted: ', ret);
+        let deletedData = this.arrdesignation.splice(this.arrdesignation.indexOf(desigId), 1);
+        alert('Deleted Designaton:' + "'" + deletedData[0].Designation + "'" + '  Description:' + "'" + deletedData[0].Description + "'");
+
+        // jquery-confirm
+        //   $.alert({
+        //     title: 'Alert!',
+        //     content: 'Simple alert!',
+        // });
+      });
+    }
+  }
+
+
+ // Modal Editpopup
+  openEdit(content, item) {
+    this.id = item.Id;
+    this.designation = item.Designation;
+    this.description = item.Description;
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
@@ -44,7 +73,36 @@ export class DesignationdisplayComponent implements OnInit {
       );
   }
 
-  // modal
+
+  // Update
+
+  updateDesignation(f) {
+    this.dataservice.editDesignation(this.id, f.value).subscribe(
+      (data: any) => {
+        alert('updated');
+      }
+    );
+  }
+
+
+ // Modal Addpopup
+  open(content) {
+    this.id = null;
+    this.designation = '';
+    this.description = '';
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        result => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  // modal close
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -55,91 +113,23 @@ export class DesignationdisplayComponent implements OnInit {
     }
   }
 
-  // Edit modal popup
-  openEdit(content, item) {
-    console.log(item);
-    this.name = item.name;
-    this.description = item.description;
-    console.log('updating');
-    console.log(this.name);
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        result => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        reason => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
+
+  // Insert and update code here
+  public designationForm(f) {
+    if (this.id != null) {
+      console.log('Update');
+      this.dataservice.editDesignation(this.id, f.value).subscribe((data: any) => {
+        alert('Record Updated');
+      });
+    } else {
+      console.log('Adding');
+      this.dataservice.addDesignation(f.value).subscribe((data: any) => {
+      alert('Record Added'); },
+      function(error) {
+        alert(error);
+      },
+      function() {}
       );
-  }
-
-  // modal
-  // private getDismissReason(reason: any): string {
-  // if (reason === ModalDismissReasons.ESC) {
-  // return 'by pressing ESC';
-  // } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  // return 'by clicking on a backdrop';
-  // } else {
-  // return `with: ${reason}`;
-  // }
-  // }
-  // End Edit modal popup
-
-  // delete
-  onDesigDelete(desig) {
-    if (confirm(this.msg) === true) {
-      this.arrDesig.splice(this.arrDesig.indexOf(desig), 1);
-    }
-  }
-
-  // onAddDesig() {
-  // console.log(this.name);
-
-  // console.log(this.arrDesig);
-  // }
-
-  // Update
-  onEditDesign(f) {
-    console.log(f.value);
-    // if (condition) {
-
-    // }
-
-    // this.arrDesig.push(new Designation(this.name, this.description));
-  }
-
-  // Create
-  // onAddDesign(f) {
-
-  // }
-
-  EditItem(content, i) {
-    console.log(content);
-    this.name = this.arrDesig[i].name;
-    this.description = this.arrDesig[i].description;
-    this.updatedItem = i;
-
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        result => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        reason => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  UpdateItem() {
-    const data = this.updatedItem;
-    for (let i = 0; i < this.arrDesig.length; i++) {
-      if (i == data) {
-        this.arrDesig[i].name = this.name;
-
-        this.arrDesig[i].description = this.description;
-      }
     }
   }
 }

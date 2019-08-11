@@ -21,9 +21,9 @@
              </tr>
           </thead>
           <tbody>
-             <tr class='' *ngFor="let item of arrDesig">
-                <td>{{item.name}}</td>
-                <td>{{item.description}}</td>
+             <tr class='' *ngFor="let item of arrdesignation">
+                <td>{{item.Designation}}</td>
+                <td>{{item.Description}}</td>
                 <td>
                    <button class="btn btn-sm btn-secondary" (click)="openEdit(content,item)"><i class="fas fa-edit"></i></button> |
                    <button class="btn btn-sm btn-danger" (click)="onDesigDelete(item)"><i class="fas fa-trash"></i></button>
@@ -46,14 +46,14 @@
     </div>
     <div class="modal-body">
        <!-- <div class='col-4'> -->
-       <form (ngSubmit)="onEditDesign(f)" #f="ngForm">
+       <form (ngSubmit)="designationForm(f)" #f="ngForm">
        <table>
           <tr>
              <td>
                 <div class="form-group">
                    <label for="designation">Designation</label>
                    <div class="input-group">
-                      <input id="designation" class="form-control" [(ngModel)]='name' placeholder="Name" name="designame">
+                      <input id="designation" class="form-control" [(ngModel)]='designation' placeholder="Name" name="Designation">
                       <div class="input-group-append">
                          <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
                       </div>
@@ -64,7 +64,7 @@
                 <div class="form-group">
                    <label for="description">Description</label>
                    <div class="input-group">
-                      <input id="description" class="form-control" [(ngModel)]="description" placeholder="Description" name="description">
+                      <input id="description" class="form-control" [(ngModel)]="description" placeholder="Description" name="Description">
                       <div class="input-group-append">
                          <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
                       </div>
