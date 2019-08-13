@@ -40,7 +40,6 @@ export class DesignationdataService {
       console.log(JSON.stringify(f));
       let body = JSON.stringify(f);
       let head = new HttpHeaders().set("Content-Type", "application/json");
-      // return this.http.post(`${this.SERVER_URL+ 'desig'}`, post);
       return this.http.post(this.SERVER_URL, body, {headers: head});
   }
 

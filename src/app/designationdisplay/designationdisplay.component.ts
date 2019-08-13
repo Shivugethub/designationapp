@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Designation } from 'src/app/designation';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DesignationdataService } from '../designationdata.service';
-import { jquery } from 'jquery-confirm';
-import { JsonpClientBackend } from '@angular/common/http';
+// import { jquery } from 'jquery-confirm';
+// import { JsonpClientBackend } from '@angular/common/http';
 
 @Component({
   selector: 'app-designationdisplay',
@@ -27,7 +27,6 @@ export class DesignationdisplayComponent implements OnInit {
   // End api
 
   ngOnInit() {
-    console.log('oninit');
     this.getDesignations();
   }
 
@@ -38,12 +37,12 @@ export class DesignationdisplayComponent implements OnInit {
     });
   }
 
-  public onDesigDelete(desigId: Designation) {
-    console.log(desigId.Id);
+  public onDesigDelete(arrKey: Designation) {
+    console.log(arrKey);
     if (confirm(this.msg) === true) {
-      this.dataservice.deleteDesignation(desigId.Id).subscribe((ret: any) => {
+      this.dataservice.deleteDesignation(arrKey.Designation).subscribe((ret: any) => {
         console.log('Successfuly deleted: ', ret);
-        let deletedData = this.arrdesignation.splice(this.arrdesignation.indexOf(desigId), 1);
+        let deletedData = this.arrdesignation.splice(this.arrdesignation.indexOf(arrKey), 1);
         alert('Deleted Designaton:' + "'" + deletedData[0].Designation + "'" + '  Description:' + "'" + deletedData[0].Description + "'");
 
         // jquery-confirm
@@ -58,57 +57,18 @@ export class DesignationdisplayComponent implements OnInit {
  // Modal Editpopup
   openEdit(content, item) {
     this.id = item.Id;
+    console.log(this.id);
     this.designation = item.Designation;
     this.description = item.Description;
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        result => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        reason => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+    this.modalService.open(content);
   }
-
-
-  // // Update not
-  // updateDesignation(f) {
-  //   this.dataservice.editDesignation(this.id, f.value).subscribe(
-  //     (data: any) => {
-  //       alert('updated');
-  //     }
-  //   );
-  // }
-
 
  // Modal Addpopup
   open(content) {
     this.id = null;
     this.designation = '';
     this.description = '';
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        result => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        reason => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  // modal close
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+    this.modalService.open(content);
   }
 
 
@@ -124,10 +84,11 @@ export class DesignationdisplayComponent implements OnInit {
       this.dataservice.addDesignation(f.value).subscribe((data: any) => {
       alert('Record Added'); },
       function(error) {
-        alert(error);
+        console.log(error);
       },
       function() {}
       );
     }
+    this.modalService.dismissAll();
   }
 }

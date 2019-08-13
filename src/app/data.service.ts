@@ -12,52 +12,7 @@ export class DataService  implements InMemoryDbService {
 
    let  desig: Designation[] = [
       {
-        Id: 1,
-        Designation: "Software Engineer",
-        Description: "Software Engineer"
-      },
-      {
-        Id: 2,
-        Designation: "Sr. Software Engineer",
-        Description: "Senior Software Engineer"
-      },
-      {
-        Id: 3,
-        Designation: "Software Developer",
-        Description: "Software Developer"
-      },
-      {
-        Id: 4,
-        Designation: "Software Engineer",
-        Description: "Software Engineer"
-      },
-      {
-        Id: 5,
-        Designation: "Jr. Software Engineer",
-        Description: "Junior Software Engineer"
-      },
-      {
-        Id: 6,
-        Designation: "Software Engineer",
-        Description: "Software Engineer"
-      },
-      {
-        Id: 7,
-        Designation: "System Administrator",
-        Description: "System Administrator"
-      },
-      {
-        Id: 8,
-        Designation: "Process Manager",
-        Description: "Software Engineer"
-      },
-      {
-        Id: 9,
-        Designation: "System Administrator",
-        Description: "System Administrator"
-      },
-      {
-        Id: 10,
+        Id: '1',
         Designation: "Proofer",
         Description: "Proofer"
       }

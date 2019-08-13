@@ -1,5 +1,5 @@
 export interface Designation {
-  Id: number;
+  Id: string;
   Designation: string;
   Description: string;
 }
