@@ -22,7 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "@types/jquery": "^3.3.31",
     "angular-in-memory-web-api": "^0.8.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-confirm": "^3.3.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
