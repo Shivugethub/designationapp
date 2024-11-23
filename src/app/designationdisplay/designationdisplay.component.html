@@ -4,12 +4,11 @@
        <div class='container'>
           <!-- Modal btn -->
           <button class="btn btn-sm btn-warning text-white float-right" (click)="open(content)">Add New Designation</button>
-          <!-- <div></div> -->
        </div><br><br><br><br>
        <div class='container'>
           <form class="form-inline mr-auto">
-             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-             <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button>
+             <input class="form-control" type="text" placeholder="Search" aria-label="Search" #searhInput (keyup)="onSearch(searhInput)">
+             <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit" (click)="onSearch(searhInput)">Search</button>
           </form>
        </div>
        <table class='table table-striped table-sm table-responsive-sm'>
@@ -31,21 +30,17 @@
              </tr>
           </tbody>
        </table>
-    <!-- </div> -->
- <!-- </div> -->
 
 
 
   <!-- Modal Begins -->
  <ng-template #content let-modal>
     <div class="modal-header">
-       <h4 class="modal-title" id="modal-basic-title" >Add/Edit Designation</h4>
-       <button type="button" class="close bg bg-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
-       <span aria-hidden="true">Close</span>
+       <h4 class="modal-title" id="modal-basic-title" >{{id ? 'Edit': 'Add'}} Designation</h4>
+       <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Close
        </button>
     </div>
     <div class="modal-body">
-       <!-- <div class='col-4'> -->
        <form (ngSubmit)="designationForm(f)" #f="ngForm">
        <table>
           <tr>
@@ -74,12 +69,10 @@
           </tr>
        </table>
        <div class="modal-footer">
-          <button type="submit" class="btn btn-outline-dark" >Submit</button>
-          <button type="reset" class="btn btn-outline-dark" >Cancel</button>
+          <button *ngIf="!id"  type="submit" class="btn btn-blue-grey" (click)="addNewDesg()" [disabled]="!designation || !description">Save</button>
+          <button *ngIf="id" type="submit" class="btn btn-blue-grey" (click)="updateDesg()" [disabled]="!designation || !description">Save</button>
+          <button type="reset" class="btn btn-light" (click)="modal.dismiss('Cross click');closeDialog()">Cancel</button>
        </div>
        </form>
     </div>
-    <!-- </div> -->
  </ng-template>
- <!-- <hr>
-    <pre>{{closeResult}}</pre> -->

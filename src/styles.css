@@ -18,3 +18,9 @@
 
 }
 
+
+button {
+  min-width: 5em;
+  border: none !important;
+  border-radius: 0.6em !important;
+}
